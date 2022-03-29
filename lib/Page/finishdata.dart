@@ -9,6 +9,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:flutter_signup/models/Entry.dart';
 import 'package:flutter_signup/models/Start.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
+import 'package:flutter_signup/services/api_services.dart';
 
 import '../config.dart';
 import '../models/encrypt.dart';
@@ -26,9 +27,11 @@ class DataFinish extends StatefulWidget {
 
 class _DataFinishState extends State<DataFinish> {
   late Entry entry;
+  late Encrypt _dataEncrypt;
   late Mulai mulai;
   _DataFinishState({required this.entry, required this.mulai}) : super();
 
+  bool isAPIcallProcess = false;
   _kalori (weight, duration, dist){
     double kec = (dist/1000)/(duration/60);
     double kal;
@@ -194,15 +197,22 @@ class _DataFinishState extends State<DataFinish> {
           Center(
               child: FormHelper.submitButton(
                   "Finish",
-                      () async{
-                        Encrypt encrypt = Encrypt(
-                          duration: entry.duration,
-                          dataactv: mulai.dataactv,
-                          distance: entry.distance,
-                          kal: _kalori( mulai.weight, entry.waktutot, entry.distance),
-                          lastlatitude: entry.lastlatitude,
-                          lastlongitude: entry.lastlongitude,
-                        );
+                      () async {
+                        String duration = entry.duration;
+                        String dataactv = mulai.dataactv;
+                        String kal = _kalori( mulai.weight, entry.waktutot, entry.distance);
+                        double lastlatitude = entry.lastlatitude;
+                        double distance = entry.distance;
+                        double lastlongitude = entry.lastlongitude;
+
+                      Encrypt dataEncrypt = await APIService.getEncrypt(
+                        duration, distance, dataactv, kal, lastlatitude, lastlongitude
+                      );
+
+                      setState(() {
+                        _dataEncrypt = dataEncrypt;
+                      });
+
                         FormHelper.showSimpleAlertDialog(
                           context,
                           Config.appName,

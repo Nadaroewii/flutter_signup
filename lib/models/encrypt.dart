@@ -1,3 +1,8 @@
+import 'dart:convert';
+Encrypt dataEncryptFromJson(String str) => Encrypt.fromJson(json.decode(str));
+
+String dataEncryptToJson(Encrypt encrypt) => json.encode(encrypt.toJson());
+
 class Encrypt {
   String duration;
   double distance;
@@ -16,11 +21,21 @@ class Encrypt {
     required this.lastlongitude
   });
 
-  Encrypt.fromJson(Map<String, dynamic> json) :
-        duration = json['duration'],
-        distance = json['distance'],
-        dataactv = json['dataactv'],
-        kal = json['kal'],
-        lastlatitude = json['lastlatitude'],
-        lastlongitude = json['lastlongitude'];
+  factory Encrypt.fromJson(Map<String, dynamic> json) => Encrypt(
+        duration : json['duration'],
+        distance : json['distance'],
+        dataactv : json['dataactv'],
+        kal : json['kal'],
+        lastlatitude : json['lastlatitude'],
+        lastlongitude : json['lastlongitude']
+  );
+
+  Map<String, dynamic> toJson() => {
+    "duration": duration,
+    "distance": distance,
+    "dataactv" : dataactv,
+    "kal" : kal,
+    "lastlatitude" : lastlatitude,
+    "lastlongitude" : lastlongitude
+  };
   }
