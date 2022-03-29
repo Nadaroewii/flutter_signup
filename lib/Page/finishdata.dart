@@ -1,12 +1,18 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signup/services/shared_services.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:location/location.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:flutter_signup/Entry.dart';
-import 'package:flutter_signup/Start.dart';
+import 'package:flutter_signup/models/Entry.dart';
+import 'package:flutter_signup/models/Start.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
+
+import '../config.dart';
+import '../models/encrypt.dart';
+import 'mulai.dart';
 
 
 class DataFinish extends StatefulWidget {
@@ -23,7 +29,8 @@ class _DataFinishState extends State<DataFinish> {
   late Mulai mulai;
   _DataFinishState({required this.entry, required this.mulai}) : super();
 
-  _kalori (kec, weight, duration){
+  _kalori (weight, duration, dist){
+    double kec = (dist/1000)/(duration/60);
     double kal;
     var berat = int.parse(weight);
     if (kec < 3.2) {
@@ -35,7 +42,7 @@ class _DataFinishState extends State<DataFinish> {
       kal = (3.3 * 7.7 * (berat * 2.2)/200)* duration;
     } else if (5.6 <= kec || kec <= 6.4) {
       kal = (3.8 * 7.7 * (berat * 2.2)/200)* duration;
-    } else if (kec == 0) {
+    } else if (kec == 0 || dist == 0) {
       kal = 0;
     } else {
       kal = (5 * 7.7 * (berat * 2.2)/200)* duration;
@@ -81,7 +88,7 @@ class _DataFinishState extends State<DataFinish> {
   mainAxisAlignment: MainAxisAlignment.center,
   children:<Widget>[
   Text(
-  'Hasil Data',
+  'Result Data',
   style:
   TextStyle(fontSize: 20, fontFamily: "Roboto", fontWeight: FontWeight.bold,height: 1.0),
   ),
@@ -97,7 +104,7 @@ class _DataFinishState extends State<DataFinish> {
           Row(
             children:[
               Text(
-                'Tanggal :',
+                'Date :',
                 style:
                 TextStyle(fontSize: 18, fontFamily: "Roboto", fontWeight: FontWeight.bold,height: 1.0),
               ),
@@ -112,7 +119,7 @@ class _DataFinishState extends State<DataFinish> {
     Row(
       children:[
         Text(
-          'Durasi :',
+          'Duration :',
           style:
           TextStyle(fontSize: 18, fontFamily: "Roboto", fontWeight: FontWeight.bold,height: 1.0),
         ),
@@ -127,7 +134,7 @@ class _DataFinishState extends State<DataFinish> {
           Row(
             children:[
           Text(
-                'Jarak :',
+                'Distance :',
                 style:
                 TextStyle(fontSize: 18, fontFamily: "Roboto", fontWeight: FontWeight.bold,height: 1.0),
               ),
@@ -142,7 +149,7 @@ class _DataFinishState extends State<DataFinish> {
           Row(
             children:[
               Text(
-                'Jenis Aktivitas :',
+                'Activity Type :',
                 style:
                 TextStyle(fontSize: 18, fontFamily: "Roboto", fontWeight: FontWeight.bold,height: 1.0),
               ),
@@ -157,12 +164,12 @@ class _DataFinishState extends State<DataFinish> {
           Row(
             children:[
               Text(
-                'Jumlah Kalori :',
+                'Calories Burned :',
                 style:
                 TextStyle(fontSize: 18, fontFamily: "Roboto", fontWeight: FontWeight.bold,height: 1.0),
               ),
               Text(' ' +
-                  _kalori(entry.speed, mulai.weight, entry.waktutot) + ' kal',
+                  _kalori( mulai.weight, entry.waktutot, entry.distance) + ' kal',
                 style:
                 TextStyle(fontSize: 18, fontFamily: "Roboto",height: 1.0),
               ),
@@ -172,7 +179,7 @@ class _DataFinishState extends State<DataFinish> {
           Row(
             children:[
               Text(
-                'Koordinat sekarang :',
+                'Coordinates now :',
                 style:
                 TextStyle(fontSize: 18, fontFamily: "Roboto", fontWeight: FontWeight.bold,height: 1.0),
               ),
@@ -182,6 +189,49 @@ class _DataFinishState extends State<DataFinish> {
                 TextStyle(fontSize: 18, fontFamily: "Roboto",height: 1.0),
               ),
             ],
+          ),
+          SizedBox(height: 40),
+          Center(
+              child: FormHelper.submitButton(
+                  "Finish",
+                      () async{
+                        Encrypt encrypt = Encrypt(
+                          duration: entry.duration,
+                          dataactv: mulai.dataactv,
+                          distance: entry.distance,
+                          kal: _kalori( mulai.weight, entry.waktutot, entry.distance),
+                          lastlatitude: entry.lastlatitude,
+                          lastlongitude: entry.lastlongitude,
+                        );
+                        FormHelper.showSimpleAlertDialog(
+                          context,
+                          Config.appName,
+                          "Data dikirim ke server",
+                          "OK",
+                              () {
+                                Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (context){
+                                          return Start();
+                                    }));
+                          },
+                        );
+                      },
+                  btnColor: Colors.brown,
+                  borderColor: Colors.white,
+                  txtColor: Colors.white,
+                  borderRadius: 10 )
+          ),
+          SizedBox(height: 30),
+          Center(
+              child: FormHelper.submitButton(
+                  "Log Out",
+                      () {
+                        SharedService.logout(context);
+                      },
+                  btnColor: Colors.brown,
+                  borderColor: Colors.white,
+                  txtColor: Colors.white,
+                  borderRadius: 10 )
           ),
         ],),),],),
   ),)

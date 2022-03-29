@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:flutter_signup/finishdata.dart';
-import 'package:flutter_signup/Entry.dart';
+import 'package:flutter_signup/Page/finishdata.dart';
+import 'package:flutter_signup/models/Entry.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
@@ -8,11 +8,11 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter_signup/Start.dart';
+import 'package:flutter_signup/models/Start.dart';
 
 class DataStart extends StatefulWidget {
   final Mulai mulai;
-  DataStart({Key? key, required this.mulai}) : super(key: key);
+  const DataStart({Key? key, required this.mulai}) : super(key: key);
   @override
   State<DataStart> createState() => _DataStartState(mulai: mulai);
 }
@@ -33,10 +33,8 @@ class _DataStartState extends State<DataStart> {
   double _speed = 0;
   double _avgSpeed = 0;
   int _speedCounter = 0;
-  late double startlat;
-  late double startlong;
-  late double finishlat;
-  late double finishlong;
+  late final double finishlat;
+  late final double finishlong;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
 
@@ -63,10 +61,6 @@ class _DataStartState extends State<DataStart> {
       if (route.length > 0) {
         appendDist = Geolocator.distanceBetween(route.last.latitude,
             route.last.longitude, loc.latitude, loc.longitude);
-        startlat = loc.latitude;
-        startlong = loc.longitude;
-        finishlat = route.last.latitude;
-        finishlong = route.last.longitude;
         _dist = _dist + appendDist;
         int timeDuration = (_time - _lastTime);
         if (_lastTime != null && timeDuration != 0) {
@@ -112,25 +106,13 @@ class _DataStartState extends State<DataStart> {
           ),
         ),
         body: Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: Column(children: [
               Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.1,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 1,
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 1,
                 color: fromCssColor('#FFDC97'),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -153,10 +135,8 @@ class _DataStartState extends State<DataStart> {
                   child: GoogleMap(
                     polylines: polyline,
                     onMapCreated: _onMapCreated,
-                    mapType: MapType.normal,
                     myLocationEnabled: true,
-                    initialCameraPosition:
-                    CameraPosition(target: _center, zoom: 18),
+                    initialCameraPosition: CameraPosition(target: _center, zoom: 18),
                   )
               ),
               Container(
@@ -256,14 +236,12 @@ class _DataStartState extends State<DataStart> {
                                   .now()),
                               duration: _displayTime,
                               speed:
-                              _speedCounter == 0 ? 0 : _avgSpeed /
-                                  _speedCounter,
+                              _speedCounter == 0 ? 0 : _avgSpeed / _speedCounter,
                               distance: _dist,
                               waktutot: ((double.parse(StopWatchTimer.getDisplayTimeHours(_time))) * 60 ) + double.parse(StopWatchTimer.getDisplayTimeMinute(_time)) + ((double.parse(StopWatchTimer.getDisplayTimeSecond(_time))) / 60 ),
-                              startlatitude: startlat,
-                              startlongitude: startlong,
-                              lastlatitude: finishlat,
-                              lastlongitude: finishlong);
+                              lastlatitude: route.last.latitude,
+                              lastlongitude: route.last.longitude
+                              );
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) =>
                                   DataFinish(entry: entry, mulai: mulai)));

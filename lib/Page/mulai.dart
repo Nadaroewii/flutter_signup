@@ -1,14 +1,13 @@
-import 'package:dartpy/dartpy.dart';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signup/startdata.dart';
-import 'package:flutter_signup/Start.dart';
+import 'package:flutter_signup/Page/startdata.dart';
+import 'package:flutter_signup/models/Start.dart';
 import 'package:from_css_color/from_css_color.dart';
 
-import 'finishdata.dart';
 
 class Start extends StatefulWidget {
-
+  const Start({ Key? key}) : super(key: key);
   @override
   State<Start> createState() => _StartState();
 }
@@ -82,7 +81,7 @@ class _StartState extends State<Start> {
                     items: active,
                     enabled: true,
                     label: "Activity Type",
-                    hint: "Pilih jenis aktivitas",
+                    hint: "Choose your Activity Type",
                     onChanged: (value){
                       setState(() {
                         selectActive = value!;
@@ -128,7 +127,7 @@ class _StartState extends State<Start> {
                     showSelectedItems: true,
                     items: genders,
                     label: "Gender",
-                    hint: "Pilih Jenis Kelaminmu",
+                    hint: "Choose your Gender",
                     onChanged: (value){
                       setState(() {
                         selectGender = value!;

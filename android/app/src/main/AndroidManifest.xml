@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_signup">
-   <application
-        android:label="LifeHealth"
-        android:icon="@mipmap/ic_launcher">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:label="flutter_signup"
+        android:icon="@mipmap/ic_launcher"
+        >
        <meta-data android:name="com.here.sdk.access_key_id" android:value="LCD5Cw0REzG1Xvo_dSzqbw"/>
        <meta-data android:name="com.here.sdk.access_key_secret" android:value="qXuEQ01_p2AceOev-V2sI7H_NAsalxoY316YmyXiinpHS7G8nzmd_oFvysPIH5B2erW1JCQJlYCiBPEwwJ5mYw"/>
        <!-- TODO: Add your Google Maps API key here -->
