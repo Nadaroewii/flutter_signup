@@ -72,7 +72,7 @@ class  APIService {
       String kal, double lastlatitude, double lastlongitude) async {
     var response = await http.post(
       Uri.parse('localhost:4000/dataencrypt'),
-      headers: <String, String>{
+      headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: {
@@ -83,8 +83,7 @@ class  APIService {
         'lastlatitude' : lastlatitude,
         'lastlongitude' : lastlongitude
       });
-    var dataEncrypt = response.body;
-    print(dataEncrypt);
+
 
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,
