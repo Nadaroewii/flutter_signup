@@ -44,6 +44,7 @@ dependencies:
   #here_sdk:
    # path: plugins/heresdk-explore-flutter-4.9.2.0.2128
   http: ^0.13.3
+  dio: ^4.0.6
   intl: ^0.17.0
   provider: ^5.0.0
   flutter_login: ^1.1.0
