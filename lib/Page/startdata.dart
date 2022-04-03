@@ -218,9 +218,8 @@ class _DataStartState extends State<DataStart> {
                     ]),
               ),
               Container(
+                height: 150,
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Divider(),
                       IconButton(
@@ -239,8 +238,8 @@ class _DataStartState extends State<DataStart> {
                               _speedCounter == 0 ? 0 : _avgSpeed / _speedCounter,
                               distance: _dist,
                               waktutot: ((double.parse(StopWatchTimer.getDisplayTimeHours(_time))) * 60 ) + double.parse(StopWatchTimer.getDisplayTimeMinute(_time)) + ((double.parse(StopWatchTimer.getDisplayTimeSecond(_time))) / 60 ),
-                              lastlatitude: route.last.latitude,
-                              lastlongitude: route.last.longitude
+                              lastlatitude:  3.0, //route.last.latitude
+                              lastlongitude: 4.0//route.last.longitude
                               );
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) =>

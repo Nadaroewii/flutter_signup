@@ -18,8 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   bool isAPIcallProcess = false;
   bool hidePassword = true;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? username;
-  String? password;
+  String username = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Column(children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.2,
               width: MediaQuery.of(context).size.width * 1,
               color: fromCssColor('#FFDC97'),
               child: Column(
@@ -152,12 +152,13 @@ class _LoginPageState extends State<LoginPage> {
                                 isAPIcallProcess = true;
                               });
 
-                              LoginRequestModel model = LoginRequestModel(
-                                  username: username!,
-                                  password: password!,
-                              );
+                              Map<String,String> model = {
+                                  'username': username,
+                                  'password': password,
+                              };
 
                               APIService.login(model).then((response) => {
+                              print(model),
                               setState(() {
                               isAPIcallProcess = false;
                               }),
