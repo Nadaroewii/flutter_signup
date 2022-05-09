@@ -203,12 +203,12 @@ class _SignUpState extends State<SignUp> {
                                     isAPIcallProcess = true;
                                   });
 
-                                  RegisterRequestModel model = RegisterRequestModel(
-                                      username: username!,
-                                      password: password!,
-                                      email: email!,
-                                      name: name!,
-                                  );
+                                  Map<String, String> model = {
+                                    'username': username!,
+                                    'password': password!,
+                                    'email': email!,
+                                    'name': name!,
+                                  };
 
                                   APIService.register(model).then((response) => {
                                   setState(() {

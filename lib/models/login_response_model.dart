@@ -31,6 +31,7 @@ class Data{
     required this.date,
     required this.id,
     required this.token,
+    required this.ServerpubKey,
 });
   late final String username;
   late final String name;
@@ -38,6 +39,7 @@ class Data{
   late final String date;
   late final String id;
   late final String token;
+  late final List<dynamic> ServerpubKey;
 
   Data.fromJson(Map<String, dynamic> json){
     username = json['username'];
@@ -46,6 +48,7 @@ class Data{
     date = json['date'];
     id = json['id'];
     token = json['token'];
+    ServerpubKey = json['ServerpubKey'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +59,7 @@ class Data{
     _data['date'] = date;
     _data['id'] = id;
     _data['token'] = token;
+    _data['ServerpubKey'] = ServerpubKey;
     return _data;
   }
 }
