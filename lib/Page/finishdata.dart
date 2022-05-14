@@ -386,16 +386,23 @@ class _DataFinishState extends State<DataFinish> {
                                   }
 
                               //convert to base64
-                                  var dur64 = base64.encode(utf8.encode(durEnkrip));
-                                  var dis64 = base64.encode(utf8.encode(disEnkrip));
-                                  var dat64 = base64.encode(utf8.encode(datEnkrip));
-                                  var kal64 = base64.encode(utf8.encode(kalEnkrip));
-                                  var lat64 = base64.encode(utf8.encode(latEnkrip));
-                                  var lon64 = base64.encode(utf8.encode(lonEnkrip));
+                                  var dur64 = base64.encode(utf8.encode(durEnkrip)).toString();
+                                  var dis64 = base64.encode(utf8.encode(disEnkrip)).toString();
+                                  var dat64 = base64.encode(utf8.encode(datEnkrip)).toString();
+                                  var kal64 = base64.encode(utf8.encode(kalEnkrip)).toString();
+                                  var lat64 = base64.encode(utf8.encode(latEnkrip)).toString();
+                                  var lon64 = base64.encode(utf8.encode(lonEnkrip)).toString();
 
-                              bool responsedata = await apiservice.getEncrypt(dur64.toString(),
-                                  dis64.toString(), dat64.toString(), kal64.toString(),
-                                  lat64.toString(), lon64.toString());
+                                  //Masukkan enkripsi dan chiper ke dalam array
+                                  List<String> durarray = [dur64, durchiper];
+                                  List<String> disarray = [dis64, dischiper];
+                                  List<String> datarray = [dat64, datchiper];
+                                  List<String> kalarray = [kal64, kalchiper];
+                                  List<String> latarray = [lat64, latchiper];
+                                  List<String> lonarray = [lon64, lonchiper];
+
+                              bool responsedata = await apiservice.getEncrypt(durarray, disarray,
+                              datarray, kalarray, latarray, lonarray);
 
                               if(responsedata){
                                 FormHelper.showSimpleAlertDialog(

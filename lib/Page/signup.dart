@@ -21,10 +21,10 @@ class _SignUpState extends State<SignUp> {
   bool hidePassword = true;
   bool _isSecure = true;
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? username;
-  String? password;
-  String? name;
-  String? email;
+  String username = '';
+  String? password = '';
+  String? name = '';
+  String? email = '';
   void tesTapButton() {
   }
 

@@ -13,16 +13,18 @@ class  APIService {
   static var client = http.Client();
 
 
-  static Future<bool> login(LoginRequestModel model) async {
+  static Future<bool> login(Map model) async {
+    print(model);
     Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     };
-    var url = Uri.http(Config.apiURL, Config.loginAPI);
+    var url = Uri.parse(Config.apiURL + Config.loginAPI);
 
     var response = await client.post(
       url,
+      //Uri.parse(Config.apiURL + Config.loginAPI),
       headers: requestHeaders,
-      body: jsonEncode(model.toJson()),
+      body: model,
     );
 
     if (response.statusCode == 200) {
@@ -34,17 +36,17 @@ class  APIService {
     }
   }
 
-  static Future<RegisterResponseModel>
-  register(RegisterRequestModel model) async {
+  static Future<RegisterResponseModel> register(
+      Map model) async {
     Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     };
-    var url = Uri.http(Config.apiURL, Config.registerAPI);
+    var url = Uri.parse(Config.apiURL + Config.registerAPI);
 
     var response = await client.post(
       url,
       headers: requestHeaders,
-      body: jsonEncode(model.toJson()),
+      body: model,
     );
     return registerResponseModel(response.body);
   }
@@ -71,40 +73,32 @@ class  APIService {
     }
   }
 
-  Future getEncrypt(String duration, String distance, String dataactv, String kal,
-      String lastlatitude, String lastlongitude ) async {
+  Future getEncrypt(List<String> duration, List<String> distance, List<String> dataactv, List<String> kal,
+      List<String> lastlatitude, List<String> lastlongitude ) async {
     try {
       var loginDetails = await SharedService.loginDetails();
       final responsedata = await http.post(
-        Uri.parse('http://192.168.1.7:4000/users/dataencrypt'),
-        headers:  <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Basic ${loginDetails!.data.token}',
+        Uri.parse(Config.apiURL + Config.dataencryptAPI),
+        headers: {
+          'Authorization': 'Bearer ${loginDetails!.data.token}',
         },
-        body: jsonEncode(<String, String>{
-          'duration': duration,
-          'distance': distance,
-          'dataactv':dataactv,
-          'kal': kal,
-          'lastlatitude': lastlatitude,
-          'lastlongitude': lastlongitude
-        }),
+        body: {
+          'duration': json.encode(duration),
+          'distance': json.encode(distance),
+          'dataactv':json.encode(dataactv),
+          'kal': json.encode(kal),
+          'lastlatitude': json.encode(lastlatitude),
+          'lastlongitude': json.encode(lastlongitude)
+        }
       );
 
-      var data = responsedata.body;
-      print(data);
-
-      if (responsedata.statusCode == 201) {
-        // If the server did return a 201 CREATED response,
-        // then parse the JSON.
-        return Encrypt.fromJson(jsonDecode(responsedata.body));
-      } else {
-        // If the server did not return a 201 CREATED response,
-        // then throw an exception.
-        throw Exception('Failed to send data.');
-      }
+      if (responsedata.statusCode == 200) {
+        //var new encrypted = Encrypt.fromJson(jsonDecode(responsedata.body));
+        return true;
+      } else
+        return false;
     } catch (e) {
-      print(e.toString());
+      print(e);
     }
   }
 }
