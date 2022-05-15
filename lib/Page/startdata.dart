@@ -90,12 +90,10 @@ class _DataStartState extends State<DataStart> {
   final _isHours = true;
 
   Duration duration = Duration();
-  void tesTapButton() {
-  }
+  void tesTapButton() {}
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         bottomSheet: Container(
           width: double.infinity,
           color: Colors.brown,
@@ -109,144 +107,167 @@ class _DataStartState extends State<DataStart> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
-            child: Column(children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 1,
-                color: fromCssColor('#FFDC97'),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'LifeHealth',
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(fontSize: 22,
-                          fontFamily: "Roboto",
-                          fontWeight: FontWeight.bold,
-                          height: 3.0,
-                          color: Colors.brown),
-                    ),
-                  ],),
-              ),
-              Container(
-                  height: 500,
-                  child: GoogleMap(
-                    polylines: polyline,
-                    onMapCreated: _onMapCreated,
-                    myLocationEnabled: true,
-                    initialCameraPosition: CameraPosition(target: _center, zoom: 18),
-                  )
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 1,
+                  color: fromCssColor('#FFDC97'),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text("Speed (KM/H)",
-                                  style: TextStyle(fontSize: 12,
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.bold,
-                                      height: 2.0,
-                                      color: Colors.black)),
-                              Text(_speed.toStringAsFixed(2),
-                                  style: TextStyle(fontSize: 12,
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.bold,
-                                      height: 2.0,
-                                      color: Colors.black))
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text("Time",
-                                  style: TextStyle(fontSize: 12,
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.bold,
-                                      height: 2.0,
-                                      color: Colors.black)),
-                              StreamBuilder<int>(
-                                stream: _stopWatchTimer.rawTime,
-                                initialData: 0,
-                                builder: (context, snap) {
-                                  _time = snap.data!;
-                                  _displayTime =
-                                      StopWatchTimer.getDisplayTimeHours(
-                                          _time) +
-                                          ":" +
-                                          StopWatchTimer.getDisplayTimeMinute(
-                                              _time) +
-                                          ":" +
-                                          StopWatchTimer.getDisplayTimeSecond(
-                                              _time);
-                                  return Text(_displayTime,
-                                      style: TextStyle(fontSize: 12,
-                                          fontFamily: "Roboto",
-                                          fontWeight: FontWeight.bold,
-                                          height: 2.0,
-                                          color: Colors.black));
-                                },
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text("Distance (KM)",
-                                  style: TextStyle(fontSize: 12,
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.bold,
-                                      height: 2.0,
-                                      color: Colors.black)),
-                              Text((_dist / 1000).toStringAsFixed(2),
-                                  style: TextStyle(fontSize: 12,
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.bold,
-                                      height: 2.0,
-                                      color: Colors.black))
-                            ],
-                          )
-                        ],
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'LifeHealth',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.bold,
+                            height: 3.0,
+                            color: Colors.brown),
                       ),
-                    ]),
-              ),
-              Container(
-                height: 150,
-                child: Column(
-                    children: [
-                      Divider(),
-                      IconButton(
-                        icon: Icon(
-                          Icons.stop_circle_outlined,
-                          size: 50,
-                          color: Colors.redAccent,
+                    ],
+                  ),
+                ),
+                Container(
+                    height: 500,
+                    child: GoogleMap(
+                      polylines: polyline,
+                      onMapCreated: _onMapCreated,
+                      myLocationEnabled: true,
+                      initialCameraPosition:
+                          CameraPosition(target: _center, zoom: 18),
+                    )),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Text("Speed (KM/H)",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold,
+                                        height: 2.0,
+                                        color: Colors.black)),
+                                Text(_speed.toStringAsFixed(2),
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold,
+                                        height: 2.0,
+                                        color: Colors.black))
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("Time",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold,
+                                        height: 2.0,
+                                        color: Colors.black)),
+                                StreamBuilder<int>(
+                                  stream: _stopWatchTimer.rawTime,
+                                  initialData: 0,
+                                  builder: (context, snap) {
+                                    _time = snap.data!;
+                                    _displayTime =
+                                        StopWatchTimer.getDisplayTimeHours(
+                                                _time) +
+                                            ":" +
+                                            StopWatchTimer.getDisplayTimeMinute(
+                                                _time) +
+                                            ":" +
+                                            StopWatchTimer.getDisplayTimeSecond(
+                                                _time);
+                                    return Text(_displayTime,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: "Roboto",
+                                            fontWeight: FontWeight.bold,
+                                            height: 2.0,
+                                            color: Colors.black));
+                                  },
+                                )
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("Distance (KM)",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold,
+                                        height: 2.0,
+                                        color: Colors.black)),
+                                Text((_dist / 1000).toStringAsFixed(2),
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold,
+                                        height: 2.0,
+                                        color: Colors.black))
+                              ],
+                            )
+                          ],
                         ),
-                        padding: EdgeInsets.all(0),
-                        onPressed: () async {
-                          Entry entry = Entry(
-                              date: DateFormat.yMMMMd('en_US').format(DateTime
-                                  .now()),
-                              duration: _displayTime,
-                              speed:
-                              _speedCounter == 0 ? 0 : _avgSpeed / _speedCounter,
-                              distance: _dist,
-                              waktutot: ((double.parse(StopWatchTimer.getDisplayTimeHours(_time))) * 60 ) + double.parse(StopWatchTimer.getDisplayTimeMinute(_time)) + ((double.parse(StopWatchTimer.getDisplayTimeSecond(_time))) / 60 ),
-                              lastlatitude:  route.last.latitude,
-                              lastlongitude: route.last.longitude
-                          );
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) =>
-                                  DataFinish(entry: entry, mulai: mulai)));
-                        },
+                      ]),
+                ),
+                Container(
+                  height: 150,
+                  child: Column(children: [
+                    Divider(),
+                    IconButton(
+                      icon: Icon(
+                        Icons.stop_circle_outlined,
+                        size: 50,
+                        color: Colors.redAccent,
                       ),
-                    ]),),
-            ],),),
-        ),);
+                      padding: EdgeInsets.all(0),
+                      onPressed: () async {
+                        Entry entry = Entry(
+                            date: DateFormat.yMMMMd('en_US')
+                                .format(DateTime.now()),
+                            duration: _displayTime,
+                            speed: _speedCounter == 0
+                                ? 0
+                                : _avgSpeed / _speedCounter,
+                            distance: _dist,
+                            waktutot: ((double.parse(
+                                        StopWatchTimer.getDisplayTimeHours(
+                                            _time))) *
+                                    60) +
+                                double.parse(
+                                    StopWatchTimer.getDisplayTimeMinute(
+                                        _time)) +
+                                ((double.parse(
+                                        StopWatchTimer.getDisplayTimeSecond(
+                                            _time))) /
+                                    60),
+                            lastlatitude: route.last.latitude,
+                            lastlongitude:route.last.longitude);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DataFinish(entry: entry, mulai: mulai)));
+                      },
+                    ),
+                  ]),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }

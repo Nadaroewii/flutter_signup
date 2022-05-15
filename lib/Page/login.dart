@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                           () {
                             if (validateAndSave()) {
                               setState(() {
-                                isAPIcallProcess = true;
+                                isAPIcallProcess = false;
                               });
 
                               Map<String,String> model = {
