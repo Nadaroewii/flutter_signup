@@ -64,7 +64,7 @@ class _DataFinishState extends State<DataFinish> {
   }
 
   //konversi ke ascii
-    getCharASCII(pesan) {
+    getCharASCII(String pesan) {
     List <int> listChar = [];
     for (var i = 0; i < pesan.length; i++)
     {
@@ -76,40 +76,53 @@ class _DataFinishState extends State<DataFinish> {
     }
 
     //konversi ke rannum
-    getBilanganAcak(pesan, p, y) {
+    getBilanganAcak(String pesan, int p, int y) {
     List <int> listNumber = [];
-    var pp = p.toInt() - 2;
-    var rand;
+    var pp = p - 2;
+    int rand;
+    print("nilai pp = " + pp.toString());
     for (var i = 0; i < pesan.length; i++) {
-        do{
-          var random = new Random();
-          var nilairandom = random.nextDouble();
-          rand = (pp * nilairandom).toInt();
-        } while (pow(y,rand) <= 0);
+         //do{
+          //var random = new Random();
+          //rand = (pp * random.nextDouble()).toInt();
+         //} while (pow(y,rand) <= 0);
+        var random = Random();
+        var rand = (pp * random.nextDouble()).toInt();
         listNumber.add(rand);
     }
     return listNumber;
   }
 
   //enkripsi func
-  getEnkripsi(chrASCII, rnd, g, p, y, pesan) {
+  getEnkripsi(String chrASCII, String rnd, int g, int p, int y,String pesan) {
     var gamma;
     var delta;
     for (var i = 0; i < pesan.length; i++) {
-      var m = int.parse(chrASCII);
-      var k = int.parse(rnd);
-      gamma = g.modPow(k, p);
-      var haspow = pow(y, k);
-      delta = (haspow*m)%(p);
-      print(k);
-      print(haspow);
-      print(delta);
+      var ynew = BigInt.from(y);
+      var gnew = BigInt.from(g);
+      var pnew = BigInt.from(p);
+      var m = BigInt.parse(chrASCII);
+      var k = BigInt.parse(rnd);
+      gamma = gnew.modPow(k, pnew);
+      //var haspow = pow(y, k);
+      //var delta = (haspow*m)%(p);
+      //delta = ((pow(y,k)*m)%(p)).toInt();
+      delta = ynew.pow(k.toInt())*(m)%(pnew);
+      // print("nilai m " + m.toString());
+      // print("nilai k " + k.toString());
+      // print("nilai p " + p.toString());
+      // print("nilai y " + y.toString());
+      // print("nilai pnew " + pnew.toString());
+      // print("nilai ynew " + ynew.toString());
+      // print("nilai pow " + (ynew.pow(k.toInt())).toString());
+      // print("nilai gamma " + gamma.toString());
+      // print("nilai delta " + delta.toString());
     }
     return gamma.toString() + " " + delta.toString() + " ";
   }
-  var p = 2903;
-  var g = 6;
-  var y = 1938;
+  //var p = 2903;
+  //var g = 6;
+  //var y = 1938;
   //LoginResponseModel? loginDetails = await SharedService.loginDetails();
   @override
   Widget build(BuildContext context) {
@@ -322,19 +335,19 @@ class _DataFinishState extends State<DataFinish> {
                                   print(ynew);
 
                               //konversi var ke ascii
-                                  var durchr = getCharASCII(duration);
-                                  var dischr = getCharASCII(distance);
-                                  var datchr = getCharASCII(dataakt);
-                                  var kalchr = getCharASCII(kalori);
-                                  var latchr = getCharASCII(lastlatitude);
-                                  var longchr = getCharASCII(lastlongitude);
+                                  List<int> durchr = getCharASCII(duration);
+                                  List<int> dischr = getCharASCII(distance);
+                                  List<int> datchr = getCharASCII(dataakt);
+                                  List<int> kalchr = getCharASCII(kalori);
+                                  List<int> latchr = getCharASCII(lastlatitude);
+                                  List<int> longchr = getCharASCII(lastlongitude);
                              //konversi var ke random num
-                                  var durran = getBilanganAcak(duration, pnew, ynew);
-                                  var disran = getBilanganAcak(distance, pnew, ynew);
-                                  var datran = getBilanganAcak(dataakt, pnew, ynew);
-                                  var kalran = getBilanganAcak(kalori, pnew, ynew);
-                                  var latran = getBilanganAcak(lastlatitude, pnew, ynew);
-                                  var longran = getBilanganAcak(lastlongitude, pnew, ynew);
+                                  List<int> durran = getBilanganAcak(duration, pnew, ynew);
+                                  List<int> disran = getBilanganAcak(distance, pnew, ynew);
+                                  List<int> datran = getBilanganAcak(dataakt, pnew, ynew);
+                                  List<int> kalran = getBilanganAcak(kalori, pnew, ynew);
+                                  List<int> latran = getBilanganAcak(lastlatitude, pnew, ynew);
+                                  List<int> longran = getBilanganAcak(lastlongitude, pnew, ynew);
 
                                    print(durchr);
                                    print(durran);
@@ -369,6 +382,7 @@ class _DataFinishState extends State<DataFinish> {
                                         pnew, ynew, dataakt);
                                     datEnkrip += datchiper;
                                   }
+                                  print(datEnkrip);
                                   for (var i = 0; i < kalori.length; i++) {
                                     kalchiper = getEnkripsi(kalchr[i].toString(), kalran[i].toString(), gnew,
                                         pnew, ynew, kalori);
@@ -394,12 +408,15 @@ class _DataFinishState extends State<DataFinish> {
                                   var lon64 = base64.encode(utf8.encode(lonEnkrip)).toString();
 
                                   //Masukkan enkripsi dan chiper ke dalam array
-                                  List<String> durarray = [dur64, durchiper];
-                                  List<String> disarray = [dis64, dischiper];
-                                  List<String> datarray = [dat64, datchiper];
-                                  List<String> kalarray = [kal64, kalchiper];
-                                  List<String> latarray = [lat64, latchiper];
-                                  List<String> lonarray = [lon64, lonchiper];
+                                  final durarray = <String>[dur64, durchiper];
+                                  final disarray = <String>[dis64, dischiper];
+                                  final datarray = <String>[dat64, datchiper];
+                                  final kalarray = <String>[kal64, kalchiper];
+                                  final latarray = <String>[lat64, latchiper];
+                                  final lonarray = <String>[lon64, lonchiper];
+
+                                  print(durarray);
+                                  print(disarray);
 
                               bool responsedata = await apiservice.getEncrypt(durarray, disarray,
                               datarray, kalarray, latarray, lonarray);
